@@ -65,10 +65,16 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-const displayMovements=function(movements){
+
+//function----------------------------------
+const displayMovements=function(movements,sort=false){
   containerMovements.innerHtml='';
 
-  movements.forEach(function(mov,i){
+  //----------
+  const movs=sort?movements.slice()
+    .sort((a,b) => a - b) :movements;
+
+  movs.forEach(function(mov,i){
     const type=mov > 0? 'deposit':'withdrawal';
 
     const html=`
@@ -224,6 +230,18 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
+//-----------------------------------
+
+let sorted=false;
+btnSort.addEventListener('click',function(e){
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements,!sorted);
+
+  sorted = !sorted;
+
+});
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
@@ -288,3 +306,28 @@ const deposit= mov => mov > 0;
 console.log(movements.some(deposit));  //true
 console.log(movements.every(deposit)); //true
 console.log(movements.filter(deposit)); //表示される
+
+//flat-------------------
+const arr=[[1,2,3],[4,5,6],7,8];
+console.log(arr.flat());
+
+const arrDeep=[[[1,2],3],[4,[5,6]],7,8];
+console.log(arrDeep.flat(2));
+
+const overalbalance=accounts.map(acc => acc.movements)
+  .flat().reduce((acc,mov) => acc + mov,0);
+console.log(overalbalance);
+
+//sort-----------------------
+const owners=['Jonas','Zach','Adam','Martha'];
+console.log(owners.sort());
+console.log(owners);
+
+console.log(movements);
+console.log(movements.sort());  //美しくない
+
+movements.sort((a,b) => {
+  if(a > b)return 1;
+  if(a < b) return -1;
+});
+console.log(movements);  //昇順
