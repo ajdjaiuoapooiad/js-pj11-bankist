@@ -167,15 +167,15 @@ btnTransfer.addEventListener('click',function(e){
   const amount=Number(inputTransferAmount.value);
   const receiverAcc=accounts.find(
     acc => acc.username===inputTransferTo.value);
-  inputTransferAmount.value=inputTransferTo='';
+  console.log(amount,receiverAcc);
 
   if(amount > 0 && receiverAcc && 
     currentAccount.balance >= amount && 
     receiverAcc?.username !== currentAccount.username
     ){
     
-    currentAccount.movements.push(-amount);
-    receiverAcc.movements.push(amount);
+    currentAccount.movements.push(-amount); //送金者  
+    receiverAcc.movements.push(amount);   //受け取り側
 
     updateUI(currentAccount);
 
